@@ -5,22 +5,27 @@
 #include <SDL.h>
 #include <float.h>
 
-#include "Proj.h"
+#include "FPI.h"
+#include "DRS_FPI.h"
 
 const int windowHeight = 600;
 const int windowWidth = 800;
 
 int dim = 2;
 int Resolution = 200;
-double mesh_size = 0.01;
+double mesh_size = 0.005;
 
 using namespace std;
 
 double f(vector<double> x) {
+    return (x.at(0) - 1) * (x.at(0) - 1) + (x.at(1) - 0.5) * (x.at(1) - 0.5) * (x.at(1) - 0.5) * (x.at(1) - 0.5) - 0.5;
+}
+
+double g(vector<double> x) {
     return x.at(0) * x.at(0) + 3 * x.at(1) * x.at(1) - 3;
 }
 
-vector<vector<double>> Create_Mesh() {
+vector<vector<double>> Create_Mesh(std::function<double(vector<double>)> func) {
     vector<vector<double>> mesh;
     vector<double> p(dim);
 
@@ -28,7 +33,7 @@ vector<vector<double>> Create_Mesh() {
         p[0] = x * mesh_size;
         for (int y = (-1) * windowHeight / 2 ; y < windowHeight / 2 ; y += 5) {
             p[1] = y * mesh_size;
-            if (f(p) <= 0) {
+            if (func(p) <= 0) {
                 mesh.push_back(p);
             }
         }
@@ -36,39 +41,79 @@ vector<vector<double>> Create_Mesh() {
     return mesh;
 }
 
-void Draw(SDL_Renderer* Renderer, vector<vector<double>> mesh, vector<vector<double>> p) {
+vector<vector<double>> Create_joint_Mesh() {
+    vector<vector<double>> mesh;
+    vector<double> p(dim);
+
+    for (int x = (-1) * windowWidth / 2 ; x < windowWidth / 2 ; x += 5) {
+        p[0] = x * mesh_size;
+        for (int y = (-1) * windowHeight / 2 ; y < windowHeight / 2 ; y += 5) {
+            p[1] = y * mesh_size;
+            if (f(p) <= 0 && g(p) <= 0) {
+                mesh.push_back(p);
+            }
+        }
+    }
+    return mesh;
+}
+
+void Draw(SDL_Renderer* Renderer, vector<vector<double>> mesh1, vector<vector<double>> mesh2, vector<vector<double>> joint_mesh, vector<vector<double>> p) {
     vector<double> m;
 
-    SDL_SetRenderDrawColor(Renderer, 255, 255, 255, 255);
-    for (int i = 0; i < mesh.size(); i++) {
-        m = mesh.at(i);
-        SDL_RenderDrawPoint(Renderer, round(m.at(0) * Resolution) + windowWidth/2, round(m.at(1) * Resolution) + windowHeight/2);
+    SDL_SetRenderDrawColor(Renderer, 64, 64, 128, 255);
+    for (int i = 0; i < mesh1.size(); i++) {
+        m = mesh1.at(i);
+
+        SDL_RenderDrawPoint(Renderer, round( ( m.at(0)) * Resolution) + windowWidth/2, round( (m.at(1) ) * Resolution) + windowHeight/2);
+    }
+
+    SDL_SetRenderDrawColor(Renderer, 64, 128, 64, 255);
+    for (int i = 0; i < mesh2.size(); i++) {
+        m = mesh2.at(i);
+
+        SDL_RenderDrawPoint(Renderer, round( ( m.at(0)) * Resolution) + windowWidth/2, round( (m.at(1) ) * Resolution) + windowHeight/2);
+    }
+
+    SDL_SetRenderDrawColor(Renderer, 180, 180, 180, 255);
+    for (int i = 0; i < joint_mesh.size(); i++) {
+        m = joint_mesh.at(i);
+
+        SDL_RenderDrawPoint(Renderer, round( ( m.at(0)) * Resolution) + windowWidth/2, round( (m.at(1) ) * Resolution) + windowHeight/2);
     }
 
     SDL_SetRenderDrawColor(Renderer, 255, 120, 120, 255);
-    for (int i = 0; i < p.size(); i++) {
+    for (int i = 0; i < p.size(); i+=4) {
         m = p.at(i);
 
-        SDL_RenderDrawPoint(Renderer, round( m.at(0) * Resolution) + windowWidth/2, round(m.at(1) * Resolution) + windowHeight/2);
+        SDL_RenderDrawPoint(Renderer, round( (m.at(0)) * Resolution) + windowWidth/2, round( (m.at(1) ) * Resolution) + windowHeight/2);
     }
 
     SDL_RenderPresent(Renderer);
 }
 
 int main() {
-    vector<double> feasible(dim);
-    feasible.at(0) = 0;
-    feasible.at(1) = 0;
+    vector<double> start(2);
+    start.at(0) = -0.375953;
+    start.at(1) = +1.08393;
 
-    vector<double> x0(dim);
-    x0.at(0) = 1;
-    x0.at(1) = -1;
+    vector<double> feasible1(2), feasible2(2);
+    feasible1.at(0) = 0;
+    feasible1.at(1) = 0;
+    feasible2.at(0) = 1;
+    feasible2.at(1) = 0.5;
 
-    Proj proj = Proj(feasible, f, dim, 0.25, 0.001, 10000);
-    proj.Project(x0);
+    Func F = Func(f, dim, true, feasible2);
+    Func G = Func(g, dim, true, feasible1);
 
-    vector<vector<double>> p;
-    p = proj.GetData();
+
+    start.at(0) = 3.5;
+    start.at(1) = 2;
+
+    DRS_FPI drs = DRS_FPI(F, G, 2, 0.005, 0.005, 0.0001, 1000, 500);
+    vector<vector<double>> ret_drs;
+    drs.solve(start);
+    ret_drs = drs.GetData();
+
 
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         return 1;
@@ -98,7 +143,7 @@ int main() {
         SDL_SetRenderDrawColor(s, 0, 0, 0, 255);
         SDL_RenderClear(s);
 
-        Draw(s, Create_Mesh(), p);
+        Draw(s, Create_Mesh(f), Create_Mesh(g), Create_joint_Mesh(), ret_drs);
     }
 
     SDL_DestroyWindow(window);

@@ -5,7 +5,7 @@
 #include <SDL.h>
 #include <float.h>
 
-#include "Proj.h"
+#include "Prox.h"
 
 const int windowHeight = 600;
 const int windowWidth = 800;
@@ -36,21 +36,17 @@ vector<vector<double>> Create_Mesh() {
     return mesh;
 }
 
-void Draw(SDL_Renderer* Renderer, vector<vector<double>> mesh, vector<vector<double>> p) {
+void Draw(SDL_Renderer* Renderer, vector<vector<double>> mesh, vector<double> x0, vector<double> p) {
     vector<double> m;
 
-    SDL_SetRenderDrawColor(Renderer, 255, 255, 255, 255);
+    SDL_SetRenderDrawColor(Renderer, 120, 120, 120, 60);
     for (int i = 0; i < mesh.size(); i++) {
         m = mesh.at(i);
         SDL_RenderDrawPoint(Renderer, round(m.at(0) * Resolution) + windowWidth/2, round(m.at(1) * Resolution) + windowHeight/2);
     }
 
     SDL_SetRenderDrawColor(Renderer, 255, 120, 120, 255);
-    for (int i = 0; i < p.size(); i++) {
-        m = p.at(i);
-
-        SDL_RenderDrawPoint(Renderer, round( m.at(0) * Resolution) + windowWidth/2, round(m.at(1) * Resolution) + windowHeight/2);
-    }
+    SDL_RenderDrawLine(Renderer, round( p.at(0) * Resolution) + windowWidth/2, round(p.at(1) * Resolution) + windowHeight/2, round( x0.at(0) * Resolution) + windowWidth/2, round(x0.at(1) * Resolution) + windowHeight/2);
 
     SDL_RenderPresent(Renderer);
 }
@@ -64,11 +60,10 @@ int main() {
     x0.at(0) = 1;
     x0.at(1) = -1;
 
-    Proj proj = Proj(feasible, f, dim, 0.25, 0.001, 10000);
-    proj.Project(x0);
+    Func F = Func(f, dim, true, feasible);
 
-    vector<vector<double>> p;
-    p = proj.GetData();
+    Prox prox = Prox(F, dim, 0.25, 0.0001, 10000);
+    vector<double> projection = prox.Proximal(x0);
 
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         return 1;
@@ -98,7 +93,7 @@ int main() {
         SDL_SetRenderDrawColor(s, 0, 0, 0, 255);
         SDL_RenderClear(s);
 
-        Draw(s, Create_Mesh(), p);
+        Draw(s, Create_Mesh(), x0, projection);
     }
 
     SDL_DestroyWindow(window);

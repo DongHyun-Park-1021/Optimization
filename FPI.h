@@ -6,6 +6,7 @@
 #include <cmath>
 #include <functional>
 #include <vector>
+#include "Func.h"
 #include "Derivative.h"
 
 using namespace std;
@@ -16,15 +17,15 @@ FPI class contains Problem set : minimize f(x) where x in R^d
 
 class FPI {
 public:
-    std::function<double(vector<double>)> f;
+    Func f = Func();
     unsigned int dim;
     vector<vector<double>> data;
     double alpha = 0.25;
     int MAX_ITER = 100;
     double threshold = 0.00001;
 
-    FPI(std::function<double(vector<double>)> _f, int _dim);
-    FPI(std::function<double(vector<double>)> _f, int _dim, double _alpha, int _MAX_ITER, double _threshold);
+    FPI(Func _f, int _dim);
+    FPI(Func _f, int _dim, double _alpha, int _MAX_ITER, double _threshold);
 
     void solve(vector<double> x0, double alpha);
     vector<vector<double>> Get_data();
@@ -32,11 +33,11 @@ private:
     vector<double> derivative(vector<double> x0, double alpha);
 };
 
-inline FPI::FPI(std::function<double(vector<double>)> _f, int _dim) {
+inline FPI::FPI(Func _f, int _dim) {
     f = _f;
     dim = _dim;
 }
-inline FPI::FPI(std::function<double(vector<double>)> _f, int _dim, double _alpha, int _MAX_ITER, double _threshold) {
+inline FPI::FPI(Func _f, int _dim, double _alpha, int _MAX_ITER, double _threshold) {
     f = _f;
     dim = _dim;
     alpha = _alpha;

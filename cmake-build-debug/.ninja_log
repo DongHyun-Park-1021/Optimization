@@ -1,0 +1,21 @@
+# ninja log v6
+582	729	1733835582070973286	Optimization	6ebb127d98d74c5d
+6	582	1733835581494951773	CMakeFiles/Optimization.dir/main.cpp.o	1ad5caaede41be83
+2	68	1733835822627053220	build.ninja	65842dc148d0dfdd
+1	47	1733835822627053220	build.ninja	65842dc148d0dfdd
+5	575	1733835822639733087	CMakeFiles/Optimization.dir/main.cpp.o	1ad5caaede41be83
+575	721	1733835823209516126	Optimization	6ebb127d98d74c5d
+7	640	1733835939644692059	CMakeFiles/Optimization.dir/main.cpp.o	1ad5caaede41be83
+640	796	1733835940278342611	Optimization	6ebb127d98d74c5d
+7	629	1733835954976186859	CMakeFiles/Optimization.dir/main.cpp.o	1ad5caaede41be83
+629	785	1733835955598081022	Optimization	6ebb127d98d74c5d
+7	1006	1733836088542747484	CMakeFiles/Optimization.dir/main.cpp.o	1ad5caaede41be83
+1006	1188	1733836089541283949	Optimization	6ebb127d98d74c5d
+7	617	1733836105790459321	CMakeFiles/Optimization.dir/main.cpp.o	1ad5caaede41be83
+617	770	1733836106400414134	Optimization	6ebb127d98d74c5d
+7	612	1733836141630125194	CMakeFiles/Optimization.dir/main.cpp.o	1ad5caaede41be83
+612	765	1733836142235273192	Optimization	6ebb127d98d74c5d
+5	595	1733836186702974973	CMakeFiles/Optimization.dir/main.cpp.o	1ad5caaede41be83
+596	741	1733836187293073717	Optimization	6ebb127d98d74c5d
+7	629	1733836205269880574	CMakeFiles/Optimization.dir/main.cpp.o	1ad5caaede41be83
+629	784	1733836205891869031	Optimization	6ebb127d98d74c5d

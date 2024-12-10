@@ -14,35 +14,48 @@ minimize f(x) + g(x) where f is differentiable and f, g CCP
 
 class PGM {
 public:
-    std::function<double(vector<double>)> f;
-    std::function<double(vector<double>)> g;
+    Func f = Func();
+    Func g = Func();
     unsigned int dim;
     double alpha = 0.25;
+    double beta = 1.0;
     double threshold = 0.00001;
     int MAX_ITER = 100;
+    int SUB_MAX_ITER = 100;
 
     vector<vector<double>> data;
 
-    PGM(std::function<double(vector<double>)> _f, std::function<double(vector<double>)> _g, unsigned int _dim);
-    PGM(std::function<double(vector<double>)> _f, std::function<double(vector<double>)> _g, unsigned int _dim, double _alpha, double _threshold, int _MAX_ITER);
+    PGM(Func _f, Func _g, unsigned int _dim);
+    PGM(Func _f, Func _g, unsigned int _dim, double _beta);
+    PGM(Func _f, Func _g, unsigned int _dim, double _alpha, double _beta, double _threshold, int _MAX_ITER, int _SUB_MAX_ITER);
 
     void solve(vector<double> x0);
     vector<vector<double>> GetData();
 };
 
-inline PGM::PGM(std::function<double(vector<double>)> _f, std::function<double(vector<double>)> _g, unsigned int _dim) {
+inline PGM::PGM(Func _f, Func _g, unsigned int _dim) {
     f = _f;
     g = _g;
     dim = _dim;
 }
 
-inline PGM::PGM(std::function<double(vector<double>)> _f, std::function<double(vector<double>)> _g, unsigned int _dim, double _alpha, double _threshold, int _MAX_ITER) {
+inline PGM::PGM(Func _f, Func _g, unsigned int _dim, double _beta) {
+    f = _f;
+    g = _g;
+    dim = _dim;
+    beta = _beta;
+}
+
+
+inline PGM::PGM(Func _f, Func _g, unsigned int _dim, double _alpha, double _beta, double _threshold, int _MAX_ITER, int _SUB_MAX_ITER) {
     f = _f;
     g = _g;
     dim = _dim;
     alpha = _alpha;
+    beta = _beta;
     threshold = _threshold;
     MAX_ITER = _MAX_ITER;
+    SUB_MAX_ITER = _SUB_MAX_ITER;
 }
 
 inline void PGM::solve(vector<double> x0) {
@@ -52,7 +65,7 @@ inline void PGM::solve(vector<double> x0) {
     data.push_back(x);
 
     Derivative derivative(f, dim);
-    Prox prox(g, dim, alpha, alpha, threshold, MAX_ITER);
+    Prox prox(g, dim, alpha, beta, threshold, SUB_MAX_ITER);
 
     double rel_diff;
     vector<double> y = x;
