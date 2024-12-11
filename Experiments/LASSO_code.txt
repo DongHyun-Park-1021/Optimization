@@ -8,7 +8,7 @@
 #include "Matrix.h"
 #include "LASSO.h"
 
-#define ROW 200
+#define ROW 1599
 #define COL 11
 
 const int windowHeight = 600;
@@ -17,7 +17,7 @@ const int windowWidth = 800;
 using namespace std;
 
 void loadData(Matrix* A, vector<double>* b) {
-    ifstream file("/Users/donghyunpark/CLionProjects/Optimization/winequality-red.csv");
+    ifstream file("/winequality-red.csv");
     if (!file.is_open()) {
         cout << "Error opening file" << endl;
         return;
@@ -30,7 +30,7 @@ void loadData(Matrix* A, vector<double>* b) {
         stringstream ss(line);
         string cell;
         int col = 0;
-        while (getline(ss, cell, ';') && col < COL + 1) {
+        while (getline(ss, cell, ';') && col < 12) {
             data[row][col] = cell;
             col++;
         }
@@ -38,7 +38,7 @@ void loadData(Matrix* A, vector<double>* b) {
     }
     file.close();
 
-    for (int i = 1; i < ROW + 1; i++) {
+    for (int i = 1; i < row; i++) {
         for (int j = 0; j < COL && !data[i][j].empty(); j++) {
             ((*A).matrix)[i - 1][j] = stod(data[i][j]);
         }
@@ -54,12 +54,13 @@ int main() {
 
     loadData(&A, &b);
 
-    LASSO lasso1 = LASSO(ROW, COL, A, b, 0.0000001, 1, 10000000000, 0.0000000001);
-    LASSO lasso2 = LASSO(ROW, COL, A, b, 0.0000001, 1, 10000000000, 0.0000000001);
+    LASSO lasso1 = LASSO(ROW, COL, A, b, 0.0000001, 100, 100000, 0.0000000001);
+    LASSO lasso2 = LASSO(ROW, COL, A, b, 0.0000001, 100, 100000, 0.0000000001);
 
-    //lasso1.solve_PGM(x0);
+    lasso1.solve_PGM(x0);
+    vector<vector<double>> data1 = lasso1.Get_Data();
     cout << endl;
 
-
     lasso2.solve_DRS(x0);
+    vector<vector<double>> data2 = lasso2.Get_Data();
 }

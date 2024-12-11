@@ -16,6 +16,8 @@ add_executable(Optimization main.cpp
         Derivative.h
         DRS_FPI.h
         Func.h
+        Lasso.h
+        Matrix.h
 )
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY})

@@ -1,0 +1,218 @@
+Dataset : https://archive.ics.uci.edu/dataset/186/wine+quality
+Only used winequality-red.csv
+Truncated Dataset for see behavior of LASSO algorithms for distinct data size.
+Parameters
+alpha = 0.0000001
+threshold = 0.0000000001
+
+   [LASSO by PGM] (sec)
+         |   1599   |   800   |   400   |   200   |
+   1000  |   11.58  |  12.59  |  12.42  |  1.354  |
+    100  |   18.97  |  16.23  |  12.37  |  17.47  |
+     50  |   186.3  |  132.3  |  15.42  |  17.16  |
+     10  |     -    |    -    |  204.2  |  64.23  |
+      1  |     -    |    -    |    -    |    -    |
+
+   [LASSO by DRS] (sec)
+         |   1599   |   800   |   400   |   200   |
+   1000  |   0.092  |  0.192  |  0.386  |  0.083  |
+    100  |   0.153  |  0.259  |  0.396  |  1.095  |
+     50  |   1.514  |  2.123  |  0.493  |  1.061  |
+     10  |   7.133  |  11.33  |  6.538  |  4.039  |
+      1  |   201.7  |  357.1  |  44.30  |  78.59  |
+
+Case 1-1)
+Data size 1599 Lambda = 1000
+
+LASSO by PGM Method converged with iterate : 37100
+LASSO by PGM Method converged with time : 11.5881 sec
+0.0679244 0 0 0 0 0.00474849 0.000442353 0 0 0 0.470541
+
+LASSO by DRS Method converged with iterate : 37112
+LASSO by DRS Method converged with time : 0.091893 sec
+0.0679244 0 0 0 0 0.00474849 0.000442353 0 0 0 0.470541
+
+Case 1-2)
+Data size 1599 Lambda = 100
+
+LASSO by PGM Method converged with iterate : 60930
+LASSO by PGM Method converged with time : 18.9739 sec
+0.100601 0 0 0 0 0.00715692 -0.00168748 0 0 0 0.455533
+
+LASSO by DRS Method converged with iterate : 60939
+LASSO by DRS Method converged with time : 0.152901 sec
+0.100601 0 0 0 0 0.00715692 -0.00168748 0 0 0 0.455533
+
+Case 1-3)
+Data size 1599 Lambda = 50
+
+LASSO by PGM Method converged with iterate : 602544
+LASSO by PGM Method converged with time : 186.843 sec
+0.101007 0 0 0 0 0.00738563 -0.00205122 0 0.058797 0 0.438232
+
+LASSO by DRS Method converged with iterate : 602554
+LASSO by DRS Method converged with time : 1.5137 sec
+0.101007 0 0 0 0 0.00738563 -0.00205122 0 0.058797 0 0.438232
+
+Case 1-4)
+Data size 1599 Lambda = 10
+
+LASSO by DRS Method converged with iterate : 2833623
+LASSO by DRS Method converged with time : 7.13278 sec
+0.0755237 -0.797446 0 0 0 0.00467997 -0.00225973 0 0.446001 0.602529 0.343617
+
+Case 1-5)
+Data size 1599 Lambda = 1
+
+LASSO by DRS Method converged with iterate : 81593196
+LASSO by DRS Method converged with time : 201.743 sec
+0.0240036 -1.08762 -0.154609 0.00533348 -1.31968 0.00431172 -0.00300669 3.24026 -0.211732 0.827458 0.302365
+
+Case 2-1)
+Data size 800 Lambda = 1000
+
+LASSO by PGM Method converged with iterate : 79128
+LASSO by PGM Method converged with time : 12.5865 sec
+0.0589478 0 0 0 0 0 0.00175954 0 0 0 0.474555
+
+LASSO by DRS Method converged with iterate : 79139
+LASSO by DRS Method converged with time : 0.194199 sec
+0.0589478 0 0 0 0 0 0.00175954 0 0 0 0.474555
+
+Case 2-2)
+Data size 800 Lambda = 100
+
+LASSO by PGM Method converged with iterate : 103730
+LASSO by PGM Method converged with time : 16.2291 sec
+0.0903501 0 0 0 0 0.00371549 -0.00220839 0 0 0 0.472267
+
+LASSO by DRS Method converged with iterate : 103739
+LASSO by DRS Method converged with time : 0.258571 sec
+0.0903501 0 0 0 0 0.00371549 -0.00220839 0 0 0 0.472267
+
+Case 2-3)
+Data size 800 Lambda = 50
+
+LASSO by PGM Method converged with iterate : 848074
+LASSO by PGM Method converged with time : 132.326 sec
+0.0923002 0 0 0 0 0.00466958 -0.00297936 0 0.128195 0 0.432243
+
+LASSO by DRS Method converged with iterate : 848122
+LASSO by DRS Method converged with time : 2.12308 sec
+0.0923002 0 0 0 0 0.00466958 -0.00297936 0 0.128195 0 0.432243
+
+Case 2-4)
+Data size 800 Lambda = 10
+
+LASSO by DRS Method converged with iterate : 4527799
+LASSO by DRS Method converged with time : 11.3301 sec
+0.0791677 -0.445174 0 -0.00211486 0 0.00437083 -0.00404199 0 0.542677 0.420023 0.312396
+
+Case 2-5)
+Data size 800 Lambda = 1
+
+LASSO by DRS Method converged with iterate : 141275038
+LASSO by DRS Method converged with time : 357.141 sec
+0.0519892 -0.972475 -0.227427 -0.00554153 -0.415604 0.00431382 -0.00441884 1.83419 0.237027 0.610613 0.283924
+
+Case 3-1)
+Data size 400 Lambda = 1000
+
+LASSO by PGM Method converged with iterate : 158304
+LASSO by PGM Method converged with time : 12.4201 sec
+0.0463499 0 0 0 0 0 0.00544751 0 0 0 0.457805
+
+LASSO by DRS Method converged with iterate : 158315
+LASSO by DRS Method converged with time : 0.386503 sec
+0.0463499 0 0 0 0 0 0.00544751 0 0 0 0.457805
+
+Case 3-2)
+Data size 400 Lambda = 100
+
+LASSO by PGM Method converged with iterate : 157922
+LASSO by PGM Method converged with time : 12.3719 sec
+0.131543 0 0 0 0 0.00214011 -0.00183444 0 0 0 0.444282
+
+LASSO by DRS Method converged with iterate : 157932
+LASSO by DRS Method converged with time : 0.396054 sec
+0.131543 0 0 0 0 0.00214011 -0.00183444 0 0 0 0.444282
+
+Case 3-3)
+Data size 400 Lambda = 50
+
+LASSO by PGM Method converged with iterate : 196772
+LASSO by PGM Method converged with time : 15.4226 sec
+0.135561 0 0 0 0 0.00428819 -0.00286733 0 0 0 0.444439
+
+LASSO by DRS Method converged with iterate : 196780
+LASSO by DRS Method converged with time : 0.492706 sec
+0.135561 0 0 0 0 0.00428819 -0.00286733 0 0 0 0.444439
+
+Case 3-4)
+Data size 400 Lambda = 10
+
+LASSO by PGM Method converged with iterate : 2590459
+LASSO by PGM Method converged with time : 204.22 sec
+0.139585 0 0 0 0 0.00460988 -0.00388489 0 0.367878 0 0.326293
+
+LASSO by DRS Method converged with iterate : 2590466
+LASSO by DRS Method converged with time : 6.53842 sec
+0.139585 0 0 0 0 0.00460988 -0.00388489 0 0.367878 0 0.326293
+
+Case 3-5)
+Data size 400 Lambda = 1
+
+LASSO by DRS Method converged with iterate : 81593196
+LASSO by DRS Method converged with time : 201.743 sec
+0.0240036 -1.08762 -0.154609 0.00533348 -1.31968 0.00431172 -0.00300669 3.24026 -0.211732 0.827458 0.302365
+
+Case 4-1)
+Data size 200 Lambda = 1000
+
+LASSO by PGM Method converged with iterate : 33713
+LASSO by PGM Method converged with time : 1.35428 sec
+0 0 0 0 0 0 0.0156999 0 0 0 0.38437
+
+LASSO by DRS Method converged with iterate : 33724
+LASSO by DRS Method converged with time : 0.082731 sec
+0 0 0 0 0 0 0.0156999 0 0 0 0.38437
+
+Case 4-2)
+Data size 200 Lambda = 100
+
+LASSO by PGM Method converged with iterate : 436716
+LASSO by PGM Method converged with time : 17.4767 sec
+0.144116 0 0 0 0 0.000954973 -0.000258283 0 0 0 0.416592
+
+LASSO by DRS Method converged with iterate : 436725
+LASSO by DRS Method converged with time : 1.09534 sec
+0.144116 0 0 0 0 0.000954973 -0.000258283 0 0 0 0.416592
+
+Case 4-3)
+Data size 200 Lambda = 50
+
+LASSO by PGM Method converged with iterate : 426325
+LASSO by PGM Method converged with time : 17.1592 sec
+0.178854 0 0 0 0 0.0044068 -0.00226833 0 0 0 0.39951
+
+LASSO by DRS Method converged with iterate : 426334
+LASSO by DRS Method converged with time : 1.06106 sec
+0.178854 0 0 0 0 0.0044068 -0.00226833 0 0 0 0.39951
+
+Case 4-4)
+Data size 200 Lambda = 10
+
+LASSO by PGM Method converged with iterate : 1603190
+LASSO by PGM Method converged with time : 64.2262 sec
+0.206645 0 0 0 0 0.00716826 -0.00387637 0 0 0 0.385844
+
+LASSO by DRS Method converged with iterate : 1603198
+LASSO by DRS Method converged with time : 4.03905 sec
+0.206645 0 0 0 0 0.00716826 -0.00387637 0 0 0 0.385844
+
+Case 4-5)
+Data size 200 Lambda = 1
+
+LASSO by DRS Method converged with iterate : 31033586
+LASSO by DRS Method converged with time : 78.5857 sec
+0.186797 -0.841938 -0.365482 -0.0258842 0 0.00617524 -0.00312511 0 0.717282 0.113109 0.211851
