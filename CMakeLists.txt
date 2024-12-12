@@ -19,6 +19,7 @@ add_executable(Optimization main.cpp
         Lasso.h
         Matrix.h
         DYS_FPI.h
+        ADMM.h
 )
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY})

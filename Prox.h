@@ -92,16 +92,17 @@ inline vector<double> Prox::Proximal_diff(vector<double> x) {
     }
 
     cout << "Proximal not Converged" << endl;
-    cout << "y : ";
+    /*
     for (int j = 0 ; j < dim ; j++) {
         cout << y.at(j) << " ";
     }
     cout << endl;
-    cout << "y_prev : ";
+    cout << "prev : ";
     for (int j = 0 ; j < dim ; j++) {
         cout << prev.at(j) << " ";
     }
     cout << endl;
+    */
     return y;
 }
 
@@ -172,17 +173,19 @@ inline vector<double> Prox::Proximal_region(vector<double> x) {
             }
         }
     }
+
     cout << "Proximal not Converged" << endl;
-    cout << "y : ";
+    /*
     for (int j = 0 ; j < dim ; j++) {
         cout << y1.at(j) << " ";
     }
     cout << endl;
-    cout << "y_prev : ";
+    cout << "prev : ";
     for (int j = 0 ; j < dim ; j++) {
         cout << y1_prev.at(j) << " ";
     }
     cout << endl;
+    */
     return y1;
 }
 

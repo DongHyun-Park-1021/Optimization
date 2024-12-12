@@ -5,147 +5,74 @@
 #include <SDL.h>
 #include <float.h>
 
-#include "DYS_FPI.h"
-
-const int windowHeight = 600;
-const int windowWidth = 800;
-
-int dim = 2;
-int Resolution = 200;
-double mesh_size = 0.005;
+#include "ADMM.h"
 
 using namespace std;
 
+// f(x, y, z, w) = x^4 + y^4 + z^2 + w^2 - 0.5 * x^2 y^2 - 0.25 xz - 0.25 xw + 0.1 y^3 z - 0.3 y^3 w
 double f(vector<double> x) {
-    double ret = abs(x[0] * 2) + abs(x[1] / 2) - 1;
+    double ret = pow(x[0], 4) + pow(x[1], 4) + pow(x[2], 2) + pow(x[3], 2) - 0.5 * pow(x[0] * x[1], 2);
+    ret -= (0.25 * x[0] * x[2] + 0.25 * x[0] * x[3] - 0.1 * pow(x[1], 3) * x[2] + 0.3 * pow(x[1], 3) * x[3]);
     return ret;
 }
 
+// g(x, y, z) = x^4 + y^4 + z^4 + sin(x) + 2sin(xy) + 4sin(xyz)
 double g(vector<double> x) {
-    double ret = x.at(0) * x.at(0) + x.at(1) * x.at(1) - 1;
+    double ret = pow(x[0], 4) + pow(x[1], 4) + pow(x[2], 4);
+    ret += (sin(x[0]) + 2 * sin(x[0] * x[1]) + 4 * sin(x[0] * x[1] * x[2]));
     return ret;
 }
 
-double h(vector<double> x) {
-    double ret = 0;
-    ret += 0.5 * sin(x.at(0) * 5 * M_PI / 180);
-    ret += sin(x.at(1) * 10 * M_PI / 180);
-    return ret;
+
+int main() {
+    int p = 4, q = 3, r = 2;
+    Func F = Func(f, p);
+    Func G = Func(g, q);
+
+    vector<vector<double>> a, b;
+    a.push_back({1, 2, -1, -1});
+    a.push_back({0, -1, 1, -3});
+
+    b.push_back({-1, 0.5, 0});
+    b.push_back({0, 1, -2});
+
+    Matrix A = Matrix(r, p, a);
+    Matrix B = Matrix(r, q, b);
+    vector<double> c = {1, -1};
+    ADMM admm = ADMM(F, G, A, B, c, p, q, r, 0.0001, 0.001, 0.001, 0.00001, 1000000, 5000);
+
+    vector<double> x0 = {0, 0, 0, 0};
+    vector<double> y0 = {0, 0, 0};
+
+    vector<pair<vector<double>, vector<double>>> ret_admm;
+    admm.solve(x0, y0);
+
+    vector<pair<vector<double>, vector<double>>> Data = admm.GetData();
+
+    vector<double> Ax(r), By(r), u(r);
+    /*
+    for (int i = 0 ; i < Data.size(); i++) {
+        cout << "x : ";
+        for (int j = 0 ; j < p ; j++) {
+            cout << Data.at(i).first.at(j) << " ";
+        }
+        cout << endl;
+        cout << "y : ";
+        for (int j = 0 ; j < q ; j++) {
+            cout << Data.at(i).second.at(j) << " ";
+        }
+        cout << endl;
+        cout << "f(x) + g(y) = " << f(Data.at(i).first) + g(Data.at(i).second) << endl;
+
+        Ax = A * Data.at(i).first;
+        By = B * Data.at(i).second;
+
+        cout << "Ax + By - c = ";
+        for (int j = 0 ; j < r ; j++) {
+            u.at(j) = Ax.at(j) + By.at(j) - c.at(j);
+            cout << u.at(j) << " ";
+        }
+        cout << endl;
+    }
+    */
 }
-
-vector<vector<double>> Create_Mesh(std::function<double(vector<double>)> func) {
-    vector<vector<double>> mesh;
-    vector<double> p(dim);
-
-    for (int x = (-1) * windowWidth / 2 ; x < windowWidth / 2 ; x += 5) {
-        p[0] = x * mesh_size;
-        for (int y = (-1) * windowHeight / 2 ; y < windowHeight / 2 ; y += 5) {
-            p[1] = y * mesh_size;
-            if (func(p) <= 0)
-                mesh.push_back(p);
-        }
-    }
-    return mesh;
-}
-
-vector<vector<double>> Create_jointMesh(std::function<double(vector<double>)> func1, std::function<double(vector<double>)> func2) {
-    vector<vector<double>> mesh;
-    vector<double> p(dim);
-
-    for (int x = (-1) * windowWidth / 2 ; x < windowWidth / 2 ; x += 5) {
-        p[0] = x * mesh_size;
-        for (int y = (-1) * windowHeight / 2 ; y < windowHeight / 2 ; y += 5) {
-            p[1] = y * mesh_size;
-            if (func1(p) <= 0 && func2(p) <= 0)
-                mesh.push_back(p);
-        }
-    }
-    return mesh;
-}
-
-void Draw(SDL_Renderer* Renderer, vector<vector<double>> mesh1, vector<vector<double>> mesh2, vector<vector<double>> joint_mesh, vector<vector<double>> p) {
-    vector<double> m;
-
-    SDL_SetRenderDrawColor(Renderer, 100, 120, 100, 60);
-    for (int i = 0; i < mesh1.size(); i++) {
-        m = mesh1.at(i);
-        SDL_RenderDrawPoint(Renderer, round( ( m.at(0) ) * Resolution) + windowWidth/2, round( (m.at(1) ) * Resolution) + windowHeight/2);
-    }
-
-    SDL_SetRenderDrawColor(Renderer, 100, 100, 120, 60);
-    for (int i = 0; i < mesh2.size(); i++) {
-        m = mesh2.at(i);
-        SDL_RenderDrawPoint(Renderer, round( ( m.at(0) ) * Resolution) + windowWidth/2, round( (m.at(1) ) * Resolution) + windowHeight/2);
-    }
-
-    SDL_SetRenderDrawColor(Renderer, 160, 160, 160, 60);
-    for (int i = 0; i < joint_mesh.size(); i++) {
-        m = joint_mesh.at(i);
-        SDL_RenderDrawPoint(Renderer, round( ( m.at(0) ) * Resolution) + windowWidth/2, round( (m.at(1) ) * Resolution) + windowHeight/2);
-    }
-
-    SDL_SetRenderDrawColor(Renderer, 255, 160, 160, 255);
-    for (int i = 0; i < p.size(); i+=4) {
-        m = p.at(i);
-
-        SDL_RenderDrawPoint(Renderer, round( (m.at(0)) * Resolution) + windowWidth/2, round( (m.at(1)) * Resolution) + windowHeight/2);
-    }
-
-    SDL_RenderPresent(Renderer);
-}
-
-    int main() {
-        vector<double> start(2);
-        start.at(0) = 0.492;
-        start.at(1) = 0.192;
-
-        vector<double> feasible(2);
-        feasible.at(0) = 0.0;
-        feasible.at(1) = 0.0;
-
-        Func F = Func(f, dim, true, feasible);
-        Func G = Func(g, dim, true, feasible);
-        Func H = Func(h, dim);
-
-        DYS_FPI dys = DYS_FPI(F, G, H, 2, 0.005, 0.005, 0.0005, 5000, 300);
-        vector<vector<double>> ret_dys;
-        dys.solve(start);
-        ret_dys = dys.GetData();
-
-
-        if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-            return 1;
-            cout << "Initialization failed" << endl;
-        }
-
-        SDL_Window *window = SDL_CreateWindow("Practice making sdl Window",
-                SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowWidth,
-                windowHeight, SDL_WINDOW_SHOWN);
-
-        if (window == NULL) {
-            SDL_Quit();
-            return 2;
-        }
-
-        // We create a renderer with hardware acceleration, we also present according with the vertical sync refresh.
-        SDL_Renderer *s = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC) ;
-
-        bool quit = false;
-        SDL_Event event;
-        while (!quit) {
-            while (SDL_PollEvent(&event)) {
-                if (event.type == SDL_QUIT) {
-                    quit = true;
-                }
-            }
-            SDL_SetRenderDrawColor(s, 0, 0, 0, 255);
-            SDL_RenderClear(s);
-
-            Draw(s, Create_Mesh(f), Create_Mesh(g), Create_jointMesh(f, g), ret_dys);
-        }
-
-        SDL_DestroyWindow(window);
-        SDL_DestroyRenderer(s);
-        SDL_Quit();
-
-    }
