@@ -74,8 +74,8 @@ inline void LASSO::solve_PGM(vector<double> x0) {
         if (i % DataStore_Period == 0) { data.push_back(x); }
 
         if (rel_diff < threshold * threshold) {
-            cout << "LASSO by PGM Method converged with iterate : " << i << endl;
-            cout << "LASSO by PGM Method converged with time : " << float(clock() - begin) / CLOCKS_PER_SEC << " sec" << endl;
+            cout << "LASSO by PGM Method Converged with iterate : " << i << endl;
+            cout << "LASSO by PGM Method Converged with time : " << float(clock() - begin) / CLOCKS_PER_SEC << " sec" << endl;
             for (int j = 0 ;  j < C ; j++) {
                 cout << x.at(j) << " ";
             }

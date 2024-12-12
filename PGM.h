@@ -69,6 +69,7 @@ inline void PGM::solve(vector<double> x0) {
 
     double rel_diff;
     vector<double> y = x;
+    const clock_t begin = clock();
 
     for (int i = 1 ; i < MAX_ITER ; i++) {
         rel_diff = 0;
@@ -88,6 +89,8 @@ inline void PGM::solve(vector<double> x0) {
 
         if (rel_diff < threshold * threshold) {
             cout << "PGM Converged with iterate " << i << endl;
+            cout << "PGM Converged with time : " << float(clock() - begin) / CLOCKS_PER_SEC << " sec" << endl;
+
             for (int j = 0 ; j < dim ; j++) {
                 cout << x.at(j) << " ";
             }
@@ -97,6 +100,7 @@ inline void PGM::solve(vector<double> x0) {
     }
 
     cout << "PGM not Converged" << endl;
+    cout << "PGM time : " << float(clock() - begin) / CLOCKS_PER_SEC << " sec" << endl;
 }
 
 inline vector<vector<double> > PGM::GetData() {

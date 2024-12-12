@@ -52,6 +52,7 @@ inline void FPI::solve(vector<double> x0, double alpha) {
     Derivative derivative(f, dim);
 
     double rel_diff;
+    const clock_t begin = clock();
     data.push_back(x);
 
     vector<double> der;
@@ -67,6 +68,8 @@ inline void FPI::solve(vector<double> x0, double alpha) {
 
         if (rel_diff < threshold * threshold) {
             cout << "FPI Converged with iterate " << i << endl;
+            cout << "FPI Converged with time : " << float(clock() - begin) / CLOCKS_PER_SEC << " sec" << endl;
+
             for (int j = 0 ; j < dim ; j++) {
                 cout << x.at(j) << " ";
             }
@@ -76,6 +79,7 @@ inline void FPI::solve(vector<double> x0, double alpha) {
     }
 
     cout << "FPI not Converged" << endl;
+    cout << "FPI time : " << float(clock() - begin) / CLOCKS_PER_SEC << " sec" << endl;
 }
 inline vector<vector<double>> FPI::Get_data() {
     return data;
