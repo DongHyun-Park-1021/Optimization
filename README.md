@@ -27,11 +27,11 @@ $$ minimize_{x \in \mathbb{R}^d } f(x) + g(x) $$
 (For PGM method, $f$ is differentiable convex, $g$ is convex. For DRS method, $f, g$ is convex)
 Thus, PGM method could solve following variation.
 
-$$ minimize_{ \left\{ x \in \mathbb{R}^d | g(x) \leq 0 \right\} } f(x) $$
+$$ minimize_{ < x \in \mathbb{R}^d | g(x) \leq 0 > } f(x) $$
 
 since this problem is equivalent to solving
 
-$$ minimize_{x \in \mathbb{R}^d } f(x) + \delta_{\{ x \in \mathbb{R}^d | g(x) \leq 0 \} } (x)$$
+$$ minimize_{x \in \mathbb{R}^d } f(x) + \delta_{< x \in \mathbb{R}^d | g(x) \leq 0 > } (x)$$
 
 ($\delta_{C} (x) = 0$ for $x \in C$, $\delta_{C} (x) = \infty$ for $x \notin C$
 PGM algorithm is
@@ -48,9 +48,9 @@ Here, $Prox_{f}(x)$ is called 'proximal'. Its formula is
 
 $$Prox_{f}(x) = argmin_{y \in \mathbb{R}^d} (f(y) + \frac{1}{2} ||x-y||^2 )$$
 
-For $\delta_{\{ x \in \mathbb{R}^d | g(x) \leq 0 \} } (x)$ function, Proximal operator is exactly projection operator.
+For $\delta_{< x \in \mathbb{R}^d | g(x) \leq 0 > } (x)$ function, Proximal operator is exactly projection operator.
 
-$$Prox_{f}(x) = argmin_{y \in \mathbb{R}^d} (f(y) + \frac{1}{2} ||x-y||^2 ) = argmin_{\{y \in \mathbb{R}^d | g(x) \leq 0 \} ||x-y||}$$
+$$Prox_{f}(x) = argmin_{y \in \mathbb{R}^d} (f(y) + \frac{1}{2} ||x-y||^2 ) = argmin_{ <y \in \mathbb{R}^d | g(x) \leq 0 >} ||x-y||$$
 
 ### DYS
 
