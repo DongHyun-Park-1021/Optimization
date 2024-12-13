@@ -1,0 +1,48 @@
+f(x1, ... xn) = (log( sum_{i=1}^{m} exp(a1i x1 + ... + ani xn) ) ) / (sum_{i=1}^{m} 1/(1 + bi exp(xi)) )
+g(x1, ... xn) = x1^2 + ... xn^2 - 1
+
+Test over dimensions, problem is
+
+minimize f
+subject to g <= 0
+
+Parameters
+alpha = 0.001; beta = 0.001; threshold = 1e-6; MAX_ITER = 100000; SUB_MAX_ITER = 1000;
+        |        PGM        |        DRS        |
+dim 5   |  24605 / 1.2416   |  24603 / 1.5785   |
+dim 10  |  39899 / 3.3771   |  39907 / 4.4834   |
+dim 50  |  93978 / 54.182   |  93976 / 80.375   |
+dim 100 |  78580 / 102.704  |  78578 / 173.522  |
+dim 150 |  356047 / 1418.7  |  356045 / 2093.99 |
+
+
+[Real Code]
+
+// f(x1, ... xn) = (log( sum_{i=1}^{m} exp(a1i x1 + ... + ani xn) ) ) / (sum_{i=1}^{m} 1/(1 + bi exp(xi)) )
+double f(vector<double> x) {
+    double dom = 0, temp;
+    for (int i = 0 ; i < m; i++) {
+        temp = 0;
+        for (int j = 0; j < dim; j++) {
+            temp += (((i+1) * (j+1)) * x[j] / ((i + j + 1) * (i + j + 1)));
+        }
+        temp += (1/(i+1));
+        dom += exp(temp);
+    }
+    dom = log(dom);
+
+    double quotient = 0;
+    for (int i = 0 ; i < dim ; i++) {
+        quotient += 1/(1 + (1/(i+1)) * exp(x[i]));
+    }
+    return dom / quotient;
+}
+
+// g(x1, ... xn) = x1^2 + ... xn^2 - 1
+double g(vector<double> x) {
+    double ret = 0;
+    for (int i = 0 ; i < dim ; i++) {
+        ret += (x[i] * x[i]);
+    }
+    return ret - 1;
+}

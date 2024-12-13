@@ -111,6 +111,7 @@ inline void PDHG::solve(vector<double> x0, vector<double> y0) {
         for (int j = 0 ; j < q ; j++) {
             rel_diff += (prev_y.at(j) - y.at(j)) * (prev_y.at(j) - y.at(j));
         }
+        rel_diff /= (p + q);
 
         prev_x = x;
         prev_y = y;

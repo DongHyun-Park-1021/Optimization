@@ -139,6 +139,7 @@ inline void ADMM::solve(vector<double> x0, vector<double> y0) {
         for (int j = 0 ; j < r ; j++) {
             rel_diff += (aAx.at(j) + aBy.at(j) - alpha * c.at(j)) * (aAx.at(j) + aBy.at(j) - alpha * c.at(j)) / (alpha * alpha);
         }
+        rel_diff /= (p + q + r);
 
         prev_x = x;
         prev_y = y;

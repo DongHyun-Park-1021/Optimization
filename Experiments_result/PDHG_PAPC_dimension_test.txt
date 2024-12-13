@@ -1,0 +1,51 @@
+f(x1, ... xn) = (log( sum_{i=1}^{m} exp(a1i x1 + ... + ani xn) ) ) / (sum_{i=1}^{m} 1/(1 + bi exp(xi)) )
+g(x1, ... xn) = x1^2 + ... xn^2 - 1
+
+Test over dimensions, problem is
+
+minimize maximize f(x) + y^T A x - g(y)
+
+Parameters
+alpha = 0.001; beta = 0.001; gamma = 0.001 ; threshold = 1e-5; MAX_ITER = 100000; SUB_MAX_ITER = 1000;
+
+[m = 2]
+             |       PDHG        |        PAPC       |
+dim (5,5)    |  19671 / 1.0966   |  19675 / 0.6853   |
+dim (10,10)  |  25398 / 2.5123   |  25396 / 1.8538   |
+dim (50,50)  |  7191  / 5.0921   |  7191  / 5.1928   |
+dim (100,100)|  6954  / 15.794   |  6953  / 16.151   |
+dim (150,150)|  7172  / 33.909   |  7170  / 34.899   |
+
+[Real Code]
+
+double f(vector<double> x) {
+    double dom = 0, temp;
+    for (int i = 0 ; i < m; i++) {
+        temp = 0;
+        for (int j = 0; j < dim1; j++) {
+            temp += (((i+1) * (j+1)) * x[j] / ((i + j + 1) * (i + j + 1)));
+        }
+        temp += (1/(i+1));
+        dom += exp(temp);
+    }
+    dom = log(dom);
+
+    double quotient = 0;
+    for (int i = 0 ; i < dim1 ; i++) {
+        quotient += 1/(1 + (1/(i+1)) * exp(x[i]));
+    }
+    return dom / quotient;
+}
+
+// g(x1, ... xn) = x1^2 + ... xn^2 - 1
+double g(vector<double> x) {
+    double ret = 0;
+    for (int i = 0 ; i < dim ; i++) {
+        ret += (x[i] * x[i]);
+    }
+    return ret - 1;
+}
+
+
+
+

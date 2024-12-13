@@ -65,6 +65,7 @@ inline void FPI::solve(vector<double> x0, double alpha) {
             rel_diff += (prev.at(j) - x.at(j)) * (prev.at(j) - x.at(j));
         }
         data.push_back(x);
+        rel_diff /= dim;
 
         if (rel_diff < threshold * threshold) {
             cout << "FPI Converged with iterate " << i << endl;

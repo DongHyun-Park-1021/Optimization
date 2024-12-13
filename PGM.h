@@ -3,6 +3,8 @@
 #ifndef PGM_H
 #define PGM_H
 
+#define DataStore_Period 10000
+
 #include "Prox.h"
 #include "Derivative.h"
 
@@ -85,7 +87,12 @@ inline void PGM::solve(vector<double> x0) {
         for (int j = 0 ; j < dim ; j++) {
             rel_diff += (prev.at(j) - x.at(j)) * (prev.at(j) - x.at(j));
         }
-        data.push_back(x);
+        rel_diff /= dim;
+
+        if (i % DataStore_Period == 0) {
+            data.push_back(x);
+            cout << "Iterate : " << i << endl;
+        }
 
         if (rel_diff < threshold * threshold) {
             cout << "PGM Converged with iterate " << i << endl;

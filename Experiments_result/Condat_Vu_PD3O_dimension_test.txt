@@ -1,0 +1,58 @@
+f(x1, ... xn) = (log( sum_{i=1}^{m} exp(a1i x1 + ... + ani xn) ) ) / (sum_{i=1}^{m} 1/(1 + bi exp(xi)) )
+g(x1, ... xn) = |x1| + ... |xn| - 1
+h(x1, ... xn) = x1^2 + ... xn^2 - 1
+
+Test over dimensions, problem is
+
+minimize maximize f(x) + y^T A x - g(y) + h(x)
+
+Parameters
+alpha = 0.0001; beta = 0.001; gamma = 0.001 ; threshold = 1e-5; MAX_ITER = 100000; SUB_MAX_ITER = 10000;
+
+[m = 2]
+             |     Condat-Vu     |        PD3O       |
+dim (5,5)    |  9804  / 6.6154   |  8774  / 5.9819   |
+dim (10,10)  |  10093 / 12.168   |  8641  / 10.625   |
+dim (50,50)  |  30994 / 230.21   |  10275 / 78.436   |
+dim (100,100)|  15649 / 333.12   |  12757 / 278.75   |
+
+[Real Code]
+
+
+// f(x1, ... xn) = (log( sum_{i=1}^{m} exp(a1i x1 + ... + ani xn) ) ) / (sum_{i=1}^{m} 1/(1 + bi exp(xi)) )
+double f(vector<double> x) {
+    double dom = 0, temp;
+    for (int i = 0 ; i < m; i++) {
+        temp = 0;
+        for (int j = 0; j < dim1; j++) {
+            temp += (((i+1) * (j+1)) * x[j] / ((i + j + 1) * (i + j + 1)));
+        }
+        temp += (1/(i+1));
+        dom += exp(temp);
+    }
+    dom = log(dom);
+
+    double quotient = 0;
+    for (int i = 0 ; i < dim1 ; i++) {
+        quotient += 1/(1 + (1/(i+1)) * exp(x[i]));
+    }
+    return dom / quotient;
+}
+
+// g(x1, ... xn) = |x1| + ... + |xn| - 1
+double g(vector<double> x) {
+    double ret = 0;
+    for (int i = 0 ; i < dim2 ; i++) {
+        ret += abs(x[i] - 1/sqrt(i+1))/sqrt(i+1);
+    }
+    return ret - 1;
+}
+
+// h(x1, ... xn) = x1^2 + ... + xn^2 - 1
+double h(vector<double> x) {
+    double ret = 0;
+    for (int i = 0 ; i < dim1 ; i++) {
+        ret += x[i] * x[i];
+    }
+    return ret;
+}

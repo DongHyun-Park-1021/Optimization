@@ -106,6 +106,7 @@ inline void DYS_FPI::solve(vector<double> z0) {
                 rel_diff += (prev.at(j) - x.at(j)) * (prev.at(j) - x.at(j));
             }
         }
+        rel_diff /= dim;
 
         data.push_back(x);
 

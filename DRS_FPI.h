@@ -3,6 +3,8 @@
 #ifndef DRS_FPI_H
 #define DRS_FPI_H
 
+#define DataStore_Period 10000
+
 #include "Prox.h"
 #include "Func.h"
 
@@ -86,20 +88,18 @@ inline void DRS_FPI::solve(vector<double> z0) {
         for (int j = 0 ; j < dim ; j++) {
             z.at(j) += (x.at(j) - x_half.at(j));
         }
-        if (i == 0) {
-            cout << "Initial x : ";
-            for (int j = 0 ; j < dim ; j++) {
-                cout << x.at(j) << " ";
-            }
-            cout << endl;
-        }
+
         if (i > 0) {
             for (int j = 0 ; j < dim ; j++) {
                 rel_diff += (prev.at(j) - x.at(j)) * (prev.at(j) - x.at(j));
             }
         }
+        rel_diff /= dim;
 
-        data.push_back(x);
+        if (i % DataStore_Period == 0) {
+            data.push_back(x);
+            cout << "Iterate : " << i << endl;
+        }
 
         if (rel_diff < threshold * threshold && i > 0) {
             cout << "DRS Converged with iterate " << i << endl;

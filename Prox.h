@@ -85,6 +85,7 @@ inline vector<double> Prox::Proximal_diff(vector<double> x) {
             y.at(j) -= (der.at(j) + (y.at(j) - x.at(j))/beta) * alpha;
             rel_diff += (prev.at(j) - y.at(j)) * (prev.at(j) - y.at(j));
         }
+        rel_diff /= dim;
 
         if (rel_diff < threshold * threshold) {
             return y;
@@ -157,6 +158,7 @@ inline vector<double> Prox::Proximal_region(vector<double> x) {
         for (int j = 0 ; j < dim ; j++) {
             dist += ((y1.at(j) - y1_prev.at(j)) * (y1.at(j) - y1_prev.at(j)));
         }
+        dist /= dim;
 
         if (dist < threshold * threshold) {
             return y1;

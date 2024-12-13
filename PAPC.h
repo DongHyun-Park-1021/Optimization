@@ -113,14 +113,15 @@ inline void PAPC::solve(vector<double> x0, vector<double> y0) {
         for (int j = 0 ; j < q ; j++) {
             rel_diff += (prev_y.at(j) - y.at(j)) * (prev_y.at(j) - y.at(j));
         }
+        rel_diff /= (p + q);
 
         prev_x = x;
         prev_y = y;
 
         if (rel_diff < threshold * threshold) {
             data.push_back(pair<vector<double>, vector<double>>(x, y));
-            cout << "PDHG Converged with iterate " << i << endl;
-            cout << "PDHG Converged with time : " << float(clock() - begin) / CLOCKS_PER_SEC << " sec" << endl;
+            cout << "PAPC Converged with iterate " << i << endl;
+            cout << "PAPC Converged with time : " << float(clock() - begin) / CLOCKS_PER_SEC << " sec" << endl;
             cout << "x : ";
             for (int j = 0 ; j < p ; j++) {
                 cout << x.at(j) << " ";
