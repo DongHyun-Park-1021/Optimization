@@ -11,7 +11,7 @@ Each Algorithms can solve **arbitrary optimization problem** with specified form
 
 FPI or Fixed Point Iteration is basic optimization method solving
 
-$$ \minimize_{x \in \mathbb{R}^d} } f(x)$$
+$$ minimize_{x \in \mathbb{R}^d} } f(x)$$
 
 ($f$ is differentiable convex function)
 This problem could be solved by following Iteration.
@@ -46,11 +46,11 @@ $$z^{k+1} = z^{k} + x^{k+1} - x^{k+1/2}$$
 
 Here, $Prox_{f}(x)$ is called 'proximal'. Its formula is
 
-$$Prox_{f}(x) = \argmin_{y \in \mathbb{R}^d} (f(y) + \frac{1}{2} ||x-y||^2 )$$
+$$Prox_{f}(x) = argmin_{y \in \mathbb{R}^d} (f(y) + \frac{1}{2} ||x-y||^2 )$$
 
 For $\delta_{\{ x \in \mathbb{R}^d | g(x) \leq 0 \} } (x)$ function, Proximal operator is exactly projection operator.
 
-$$Prox_{f}(x) = \argmin_{y \in \mathbb{R}^d} (f(y) + \frac{1}{2} ||x-y||^2 ) = \argmin_{\{y \in \mathbb{R}^d | g(x) \leq 0 \} ||x-y||}$$
+$$Prox_{f}(x) = argmin_{y \in \mathbb{R}^d} (f(y) + \frac{1}{2} ||x-y||^2 ) = \argmin_{\{y \in \mathbb{R}^d | g(x) \leq 0 \} ||x-y||}$$
 
 ### DYS
 
