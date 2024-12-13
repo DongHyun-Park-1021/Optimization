@@ -27,7 +27,7 @@ $$ minimize_{x \in \mathbb{R}^d } f(x) + g(x) $$
 (For PGM method, $f$ is differentiable convex, $g$ is convex. For DRS method, $f, g$ is convex)
 Thus, PGM method could solve following variation.
 
-$$ minimize_{ \left{ x \in \mathbb{R}^d | g(x) \leq 0 \right} } f(x) $$
+$$ minimize_{ \left\{ x \in \mathbb{R}^d | g(x) \leq 0 \right\} } f(x) $$
 
 since this problem is equivalent to solving
 
