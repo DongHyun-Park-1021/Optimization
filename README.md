@@ -73,7 +73,7 @@ $$ minimize_{<x \in \mathbb{R}^p , y \in \mathbb{R}^q >} f(x) + g(y) $$
 <center>subject to $Ax + By = c$</center>
 
 ($f, g$ is convex function)
-Generally, ADMM algorithm does not gaurantee convergence of $x, y$ to $x^*, y^*$. So I selected Linearized ADMM algorithm.
+Generally, ADMM algorithm does not gaurantee convergence of $x, y$ to $x^{\ast}, y^{\ast}$. So I selected Linearized ADMM algorithm.
 
 $$x^{k+1} = Prox_{\beta f} (x^k - \beta A^T (u^k + \alpha (Ax^k + By^k - c)))$$
 $$y^{k+1} = Prox_{\gamma g} (y^k - \gamma B^T (u^k + \alpha (Ax^{k+1} + By^k - c)))$$
