@@ -161,7 +161,7 @@ inline void ADMM::solve(vector<double> x0, vector<double> y0) {
 
             cout << "Ax + By - c = ";
             for (int j = 0 ; j < r ; j++) {
-                cout << aAx.at(j)/alpha + aBy.at(j)/alpha - c.at(j);
+                cout << aAx.at(j)/alpha + aBy.at(j)/alpha - c.at(j) << " ";
             }
             cout << endl;
             return;

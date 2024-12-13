@@ -5,8 +5,8 @@
 #include <SDL.h>
 #include <float.h>
 
-#include "Condat_Vu.h"
-#include "PD3O.h"
+#include "PAPC.h"
+#include "PDHG.h"
 
 using namespace std;
 
@@ -24,16 +24,11 @@ double g(vector<double> x) {
     return ret;
 }
 
-double h(vector<double> x) {
-    double ret = 0.25 * sin(pow(x[0], 4)) + 0.5 * sin(pow(x[1], 3)) + sin(pow(x[2], 2)) + 0.5 * sin(x[1]);
-}
-
 
 int main() {
     int p = 4, q = 3;
     Func F = Func(f, p);
     Func G = Func(g, q);
-    Func H = Func(h, p);
 
     vector<vector<double>> a;
     a.push_back({1, 2, -1, -1});
@@ -45,9 +40,9 @@ int main() {
     vector<double> x0 = {0, 0, 0, 0};
     vector<double> y0 = {0, 0, 0};
 
-    Condat_Vu condat_vu = Condat_Vu(F, G, H, A, p, q, 0.001, 0.001, 0.001, 0.00001, 1000000, 5000);
-    condat_vu.solve(x0, y0);
+    PDHG pdhg = PDHG(F, G, A, p, q, 0.001, 0.001, 0.001, 0.00001, 1000000, 5000);
+    pdhg.solve(x0, y0);
 
-    PD3O pd3o = PD3O(F, G, H, A, p, q, 0.001, 0.001, 0.001, 0.00001, 1000000, 5000);
-    pd3o.solve(x0, y0);
+    PAPC papc = PAPC(F, G, A, p, q, 0.001, 0.001, 0.001, 0.00001, 1000000, 5000);
+    papc.solve(x0, y0);
 }

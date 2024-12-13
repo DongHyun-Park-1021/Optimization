@@ -20,6 +20,10 @@ add_executable(Optimization main.cpp
         Matrix.h
         DYS_FPI.h
         ADMM.h
+        PDHG.h
+        Condat_Vu.h
+        PAPC.h
+        PD3O.h
 )
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY})
