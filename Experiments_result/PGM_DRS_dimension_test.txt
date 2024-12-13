@@ -8,6 +8,8 @@ subject to g <= 0
 
 Parameters
 alpha = 0.001; beta = 0.001; threshold = 1e-6; MAX_ITER = 100000; SUB_MAX_ITER = 1000;
+
+Cell stands for (Iteration) / (Time). Time unit is sec.
         |        PGM        |        DRS        |
 dim 5   |  24605 / 1.2416   |  24603 / 1.5785   |
 dim 10  |  39899 / 3.3771   |  39907 / 4.4834   |

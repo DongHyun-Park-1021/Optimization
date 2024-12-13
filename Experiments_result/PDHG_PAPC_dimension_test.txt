@@ -8,7 +8,7 @@ minimize maximize f(x) + y^T A x - g(y)
 Parameters
 alpha = 0.001; beta = 0.001; gamma = 0.001 ; threshold = 1e-5; MAX_ITER = 100000; SUB_MAX_ITER = 1000;
 
-[m = 2]
+Cell stands for (Iteration) / (Time). Time unit is sec.
              |       PDHG        |        PAPC       |
 dim (5,5)    |  19671 / 1.0966   |  19675 / 0.6853   |
 dim (10,10)  |  25398 / 2.5123   |  25396 / 1.8538   |

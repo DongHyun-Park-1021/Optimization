@@ -9,7 +9,7 @@ minimize maximize f(x) + y^T A x - g(y) + h(x)
 Parameters
 alpha = 0.0001; beta = 0.001; gamma = 0.001 ; threshold = 1e-5; MAX_ITER = 100000; SUB_MAX_ITER = 10000;
 
-[m = 2]
+Cell stands for (Iteration) / (Time). Time unit is sec.
              |     Condat-Vu     |        PD3O       |
 dim (5,5)    |  9804  / 6.6154   |  8774  / 5.9819   |
 dim (10,10)  |  10093 / 12.168   |  8641  / 10.625   |
