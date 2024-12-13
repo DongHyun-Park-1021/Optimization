@@ -11,7 +11,7 @@ Each Algorithms can solve **arbitrary optimization problem** with specified form
 
 FPI or Fixed Point Iteration is basic optimization method solving
 
-$$ minimize_{x \in \mathbb{R}^d} } f(x) $$
+$$ minimize_{x \in \mathbb{R}^d } f(x) $$
 
 ($f$ is differentiable convex function)
 This problem could be solved by following Iteration.
@@ -50,7 +50,7 @@ $$Prox_{f}(x) = argmin_{y \in \mathbb{R}^d} (f(y) + \frac{1}{2} ||x-y||^2 )$$
 
 For $\delta_{\{ x \in \mathbb{R}^d | g(x) \leq 0 \} } (x)$ function, Proximal operator is exactly projection operator.
 
-$$Prox_{f}(x) = argmin_{y \in \mathbb{R}^d} (f(y) + \frac{1}{2} ||x-y||^2 ) = \argmin_{\{y \in \mathbb{R}^d | g(x) \leq 0 \} ||x-y||}$$
+$$Prox_{f}(x) = argmin_{y \in \mathbb{R}^d} (f(y) + \frac{1}{2} ||x-y||^2 ) = argmin_{\{y \in \mathbb{R}^d | g(x) \leq 0 \} ||x-y||}$$
 
 ### DYS
 
@@ -130,7 +130,7 @@ Second, I implemented sample function for comparison. You could check sample fun
 $$ f(x_1, \cdots x_n) = \frac{\log{\sum_{i=1}^{m} exp(\frac{1}{i} + \sum_{j=1}^{n} \frac{ij x_j }{(i+j-1)^2 })}}{\sum_{j=1}^{n} \frac{1}{1+\frac{1}{j} e^{x_j}}}$$
 $$ g(x_1, \cdots x_n) = \sum_{j=1}^n x_j^2 - 1 $$
 
-Solving the problem : minimize $f$ subject to $g \le 0$
+Solving the problem : minimize $f$ subject to $g \leq 0$
 
 <center>PDHG vs PAPC</center>
 
