@@ -11,7 +11,7 @@ Each Algorithms can solve **arbitrary optimization problem** with specified form
 
 FPI or Fixed Point Iteration is basic optimization method solving
 
-$$ minimize_{<x \in \mathbb{R}^d >} f(x) $$
+$$ minimize_{x \in \mathbb{R}^d } f(x) $$
 
 ($f$ is differentiable convex function)
 This problem could be solved by following Iteration.
@@ -22,7 +22,7 @@ $$ x^{k+1} = x^k - \alpha \nabla f(x^k) $$
 
 PGM or Proximal gradient method and DRS or Davis-Yin Splitting method could solve following problem.
 
-$$ minimize_{<x \in \mathbb{R}^d >} f(x) + g(x) $$
+$$ minimize_{x \in \mathbb{R}^d } f(x) + g(x) $$
 
 (For PGM method, $f$ is differentiable convex, $g$ is convex. For DRS method, $f, g$ is convex)
 Thus, PGM method could solve following variation.
